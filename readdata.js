@@ -16,7 +16,7 @@ const options = {
     const ws = wb.Sheets[wb.SheetNames[0]];
     const ss = XLSX.utils.decode_range(ws['!ref']);
     
-    for (let i=5; i<=8; i++){        //ss.e.r                        
+    for (let i=5; i<=8; i++){        //ss.e.r        взял 4 объекта для примера                
         let addr = {};
         let cell = ws[XLSX.utils.encode_cell({r:i, c:1})];
         if (cell) {
@@ -66,7 +66,7 @@ async function main1() {      // тут все асинк запросы и вы
    addressArray.forEach(async (addr) => {
         console.log(addr.urlR);
         addr.urlR = await reUrl(addr.urlR);
-        await delay(60000*Math.random());
+        await delay(60000*Math.random());                   // задержки, чтобы не спалиться на сервере
         console.log(addr.urlR);
         addr.rEst = await httpGet(addr.urlR);
         console.log(addr.rEst);
