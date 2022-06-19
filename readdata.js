@@ -39,7 +39,7 @@ main1()                                 //пробую по-всякому
 //.then(function(result) {
 //        finish(result);
  //   })
-//.then((response) => {XLSX.writeFile(wb, `${__dirname}/Addresses1.xlsx`);})
+//.then((response) => {XLSX.writeFile(wb, `${__dirname}/Addresses1.xlsx`);})          <------ эту запись выходного файла никуда не могу присунуть
 .catch((error)=>console.error(error));    
 
 /*
