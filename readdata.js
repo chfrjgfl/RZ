@@ -10,15 +10,13 @@ const options = {
         };
     
     
-    //const baseUrl = 'https://www.redfin.com';
     
-    //const sites = [{}];
-    const addressArray = [];   //xparse(`${__dirname}/Addresses.xlsx`);
+    const addressArray = [];  
     const wb = XLSX.readFile(`${__dirname}/Addresses.xlsx`);
     const ws = wb.Sheets[wb.SheetNames[0]];
     const ss = XLSX.utils.decode_range(ws['!ref']);
     
-    for (let i=5; i<=8; i++){        //ss.e.r  
+    for (let i=5; i<=8; i++){        //ss.e.r                        
         let addr = {};
         let cell = ws[XLSX.utils.encode_cell({r:i, c:1})];
         if (cell) {
@@ -32,22 +30,12 @@ const options = {
             addr.rEst = '';
             addr.zEst = ['', ''];
             addressArray.push(addr);
-    //     console.log(JSON.stringify(addr));
+    
         }
     }
 
-//let sss = parseBody('kwdjo[dw] value is $354,588 f]-wf- huiohef', 'r');
 
-//addressArray.forEach(addr => {
-//        let s = reUrl(addr.urlR);
-//        addr.urlR = s});
-
-
-let searchIndex = 3;    
-
-const addr = addressArray[searchIndex];
-
-main1()
+main1()                                 //пробую по-всякому
 //.then(function(result) {
 //        finish(result);
  //   })
@@ -55,13 +43,13 @@ main1()
 .catch((error)=>console.error(error));    
 
 /*
-(async () => {
+(async () => {                                    и тут
         let response = await main1();
         console.log(response);
       })();
 */
 
-//main();
+//main();                                         и тут
 async function main() {
         await main1();
         console.log('xxxxxxxxxxxxxx');
@@ -73,8 +61,8 @@ async function main() {
         console.log(res, 'Addresses1.xlsx ready');    
 }
 
-async function main1() {
-//   (async() => {     
+async function main1() {      // тут все асинк запросы и вычисления
+
    addressArray.forEach(async (addr) => {
         console.log(addr.urlR);
         addr.urlR = await reUrl(addr.urlR);
@@ -88,12 +76,7 @@ async function main1() {
         console.log(JSON.stringify(addr));
         addToExcel(ws, addr);
    });
-//})()  
 
-        setTimeout(function(){
-        console.log('xxxxxxxxxxxxxx');      
-//          resolve("done");
-        }, 100);
     
  //.then(() => XLSX.writeFile(wb, `${__dirname}/Addresses1.xlsx`)); 
 // .then(() => console.log('xxxxxxxxxxxxxx'));
@@ -115,140 +98,16 @@ function addToExcel(ws, addr) {
     }    
 }
 
-function writeExcel(wb, fileName) {
- //       let wb = XLSX.utils.book_new(); 
- //       let ws = XLSX.utils.aoa_to_sheet(data); 
- //       XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
- return new Promise(resolve => setTimeout(() => {
-        XLSX.writeFile(wb, fileName);
-        console.log(`${fileName} ready`);
-        resolve;}, 0));       
-    }
 
-//reUrl(addr.urlR).then(console.log);
 
 console.log('------------------');
 //-----------------------------------
-function getget1(url) {
-        
-        let req = https.get(url, options, (res) => {
-                let method = url[12]; 
-                console.log('statusCode:', res.statusCode);
-                console.log('url:', url);
-                if (res.statusCode==301) {
-                url = url.slice(0,22) + res.headers.location;
-                } else if (res.statusCode==200) {
-                                    console.log('statusCode:', res.statusCode);
-                                    res.on('data', (chunk) => {
-                                        let parsed = parseBody(chunk.toString(), method);
-                                        
-                                        console.log(`BODY: ${chunk.slice(0, 20)}`); 
-                                        if(parsed) {
-                                            console.log('Estimate: ', parsed);
-                                            
-                                            if(method=='r') {
-                                                addressArray[searchIndex].rEst = parsed;
-                                                url = addressArray[searchIndex].urlZ;
-                                            } else {
-                                                addressArray[searchIndex].zEst = parsed;
-                                                if (searchIndex<addressArray.length) {
-                                                        searchIndex++;
-                                                        url = addressArray[searchIndex].urlR;
-                                                } else {
-                                                        console.log('end');
-                                                        return;
-                                                }        
-                                            }
 
- //                                          req.destroy(); 
-                                        }             
-                                    });
-                                    res.on('end', () => {
-                                        console.log('No more data in response.');
-                                        
-                                        return ;
-                                       
-                                      });
-                                }  else throw new Error("Unknown code");
-
-  getget(url);
-  
-
-}).on('error', (e) => {
-  console.error(e);
-});}
-//-------------------------------------
 
 function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
 
-function getget(url) {
-        
-        let req = https.get(url, options, (res) => {
-                let method = url[12]; 
-                console.log('url:', url);
-                console.log('statusCode:', res.statusCode);
-                if (res.statusCode==301) {
-                url = url.slice(0,22) + res.headers.location;
-                } else if (res.statusCode==200) {
-                        let parsed;
-                        let body = '';
-
-
-                        if(method=='r') {
-                                url = addressArray[searchIndex].urlZ;
-                            } else {
-                                searchIndex++;
-                                if (searchIndex<addressArray.length) {
-                                        url = addressArray[searchIndex].urlR;
-                                } else {
-                                        console.log('end');
-                                        return;
-                                }        
-                            }
-
-
-/*
-                        res.on('data', (chunk) => {
-                                
-                                body += chunk;
-                                console.log(`BODY: ${chunk.slice(0, 20)}`); 
-                        });      
-*/
-
-        /*                
-                        res.on('end', () => {
-                                console.log('No more data in response.');
-                                parsed = parseBody(body, method);
-
-                                if (parsed) {
-                                        if(method=='r') {
-                                            url = addressArray[searchIndex].urlZ;
-                                        } else {
-                                            
-                                            if (++searchIndex<addressArray.length) {
-                                                    url = addressArray[searchIndex].urlR;
-                                            } else {
-                                                    console.log('end');
-                                                    return;
-                                            }        
-                                        }
-                                        getget(url);
-                                    }  
-                               
-                              });
-                                                   
-                */                  
-                                    
-                                }  else throw new Error("Unknown code");
-
-  getget(url);
-  
-
-}).on('error', (e) => {
-  console.error(e);
-});}
 
 //-------------------------------------------------------------
 
@@ -284,50 +143,7 @@ async function httpGet(url) {
         });
     }
 //---------------------------------------------
-async function go(url){
-        const method = url[12];    
-      
-          // if (method=="r") {
-          //     https.get(url, options, (res) => {
-          //         console.log('statusCode:', res.statusCode);
-          //           if (res.statusCode==301) {
-          //               console.log('New location:', res.headers.location);
-          //               url = url.slice(0,22) + res.headers.location;
-          //             } else throw new Error(`Redfin: Unknown code ${res.statusCode}`);
-          //     });
-          // }
-      
-          let req = https.get(url, options, (res) => {
-      
-          console.log('statusCode:', res.statusCode);
-      
-          if (res.statusCode==200) {
-      //            console.log('statusCode:', res.statusCode);
-                  res.on('data', (chunk) => {
-                      let parsed = parseBody(chunk, method);
-      //                body += chunk;
-                      console.log(`BODY: ${chunk.slice(0, 20)}`); 
-                      if(parsed) {
-                          console.log('Estimate: ', parsed);
-                          return parsed;  
-                      }             
-                  });
-                  res.on('end', () => {
-                      console.log('No more data in response.');
-                      let parsed = parseBody(body, method);
-                      console.log('Estimate: ', parsed);
-                      return parsed;
-      //                fs.writeFileSync(`${__dirname}/redfin1`, body);                
-                    });
-              }  else throw new Error("Unknown code");
-      
-      });
-      
-      req.on('error', (e) => {
-        console.error(e);
-      });
-      //req.end();
-      }
+
       
       function parseBody(body, method) {
         let s;
@@ -344,6 +160,6 @@ async function go(url){
                   if (s) z[1] = s[1];
                   if (z[0]||z[1]) return z;
           }
-//          return null;
+
       }
       
