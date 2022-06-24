@@ -1,0 +1,28 @@
+{
+  "name": "address",
+  "version": "0.0.1",
+  "devDependencies": {
+    "nw": "^0.18.2",
+    "nw-builder": "^3.1.2"
+  },
+  "scripts": {
+    "dev": "nw src/",
+    "prod": "nwbuild --platforms win32,win64,osx64,linux32,linux64 --buildDir dist/ src/"
+  },
+  "main": "views/main.html",
+  "window": {
+    "toolbar": false,
+    "width": 700,
+    "height": 300
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "address"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
