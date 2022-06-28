@@ -2,27 +2,26 @@
 
 class Worker {
 
-    static isBusy = false;
-    static taskLine = [];
+    static #isBusy = false;
+    static #taskLine = [];
 
     static async do(task) {
 
-        if (this.isBusy) {
-            this.taskLine.push(task);
+        if (this.#isBusy) {
+            this.#taskLine.push(task);
             return;
         }    
 
-        this.isBusy = true;
+        this.#isBusy = true;
         await task();
-        this.isBusy = false;
+        this.#isBusy = false;
 
-        if (this.taskLine.length > 0) {
-            this.do(this.taskLine.shift()); 
+        if (this.#taskLine.length > 0) {
+            this.do(this.#taskLine.shift()); 
         } 
           
     }
 }
-
 
 
 async function timer (text, time) {
