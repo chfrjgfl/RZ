@@ -7,18 +7,19 @@ class Worker {
 
     static async do(task) {
 
-        if (!this.isBusy) {
+        if (this.isBusy) {
+            this.taskLine.push(task);
+            return;
+        }    
 
-            this.isBusy = true;
-            await task();
-            this.isBusy = false;
+        this.isBusy = true;
+        await task();
+        this.isBusy = false;
 
-            if (this.taskLine.length > 0) {
-                this.do(this.taskLine.shift()); 
-
-            } else return;
-
-        } else this.taskLine.push(task);
+        if (this.taskLine.length > 0) {
+            this.do(this.taskLine.shift()); 
+        } 
+          
     }
 }
 
