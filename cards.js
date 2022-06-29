@@ -57,6 +57,3 @@ function generateSequence(winItem, finishRound) {
     return sequence;
 }
 
-for (let i=2; i<12; i++) {
-generateSequence ('plum', i);
-}
